@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Termux:Tailscale</string>
+    <string name="shared_user_label">Termux</string>
+    <string name="widget_label">Tailscale</string>
+    <string name="widget_description">Toggle Tailscale VPN on/off</string>
+    <string name="tasker_edit_label">Tailscale Action</string>
+</resources>
