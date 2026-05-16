@@ -126,6 +126,7 @@ jobs:
           key: gradle-${{ hashFiles('**/*.gradle*') }}
 
       - name: Build release APK
+        working-directory: ${{ github.workspace }}
         run: |
           echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > keystore.jks
           android/gradlew assembleRelease --no-daemon \
