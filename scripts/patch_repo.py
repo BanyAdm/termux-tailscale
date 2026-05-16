@@ -1,14 +1,5 @@
-import sys
-
-# 1. Patch manifest
 with open('android/src/main/AndroidManifest.xml') as f:
     c = f.read()
-
-if 'sharedUserId' not in c:
-    c = c.replace(
-        '<manifest xmlns:android="http://schemas.android.com/apk/res/android"',
-        '<manifest xmlns:android="http://schemas.android.com/apk/res/android"\n    android:sharedUserId="com.termux"'
-    )
 
 receivers = '''
         <receiver android:name=".TermuxPluginReceiver" android:exported="true">
