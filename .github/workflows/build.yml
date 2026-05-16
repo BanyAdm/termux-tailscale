@@ -126,7 +126,7 @@ jobs:
           key: gradle-${{ hashFiles('**/*.gradle*') }}
 
       - name: Build libtailscale AAR
-        run: make aar
+        run: make libtailscale
 
       - name: Generate tailscale.version
         run: make tailscale.version
