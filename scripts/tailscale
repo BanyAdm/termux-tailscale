@@ -1,78 +1,83 @@
 #!/data/data/com.termux/files/usr/bin/bash
-# tailscale — Termux command to control Termux:Tailscale
-# Install: cp tailscale $PREFIX/bin/ && chmod +x $PREFIX/bin/tailscale
+PKG="com.tailscale.ipn"
+STATUS_FILE="/data/data/${PKG}/files/termux_status"
 
-PKG="com.termux.tailscale"
-STATUS_FILE="/data/data/${PKG}/files/status"
-
-GREEN='\033[0;32m'; YELLOW='\033[1;33m'
-RED='\033[0;31m';   RESET='\033[0m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+RESET='\033[0m'
 
 _broadcast() {
-  am broadcast -a "${PKG}.$1" --user 0 2>/dev/null
+    am broadcast -a "${PKG}.${1}" ${@:2} 2>/dev/null
 }
 
 cmd_up() {
-  echo -e "${YELLOW}[*]${RESET} Connecting Tailscale…"
-  _broadcast UP
-  sleep 2
-  cmd_status
+    echo -e "${YELLOW}[*]${RESET} Connecting Tailscale..."
+    _broadcast CONNECT_VPN
+    sleep 2
+    cmd_status
 }
 
 cmd_down() {
-  echo -e "${YELLOW}[*]${RESET} Disconnecting Tailscale…"
-  _broadcast DOWN
-  sleep 1
-  cmd_status
+    echo -e "${YELLOW}[*]${RESET} Disconnecting Tailscale..."
+    _broadcast DISCONNECT_VPN
+    sleep 1
+    cmd_status
 }
 
 cmd_toggle() {
-  _broadcast TOGGLE
-  sleep 2
-  cmd_status
+    _broadcast TERMUX_TOGGLE
+    sleep 2
+    cmd_status
 }
 
 cmd_status() {
-  _broadcast STATUS
-  sleep 0.3
-  if [[ -f "$STATUS_FILE" ]]; then
-    STATUS=$(cat "$STATUS_FILE" | tr -d '[:space:]')
-    if [[ "$STATUS" == "connected" ]]; then
-      echo -e "${GREEN}[✓]${RESET} Tailscale: Connected"
+    _broadcast TERMUX_STATUS
+    sleep 0.5
+    if [[ -f "$STATUS_FILE" ]]; then
+        STATUS=$(cat "$STATUS_FILE" | tr -d '[:space:]')
+        if [[ "$STATUS" == "connected" ]]; then
+            echo -e "${GREEN}[✓]${RESET} Tailscale: Connected"
+        else
+            echo -e "${RED}[✗]${RESET} Tailscale: Disconnected"
+        fi
     else
-      echo -e "${RED}[✗]${RESET} Tailscale: Disconnected"
+        echo -e "${YELLOW}[?]${RESET} Status unknown (open the Tailscale app once to grant VPN permission)"
     fi
-  else
-    echo -e "${YELLOW}[?]${RESET} Status unknown (app may not be running)"
-  fi
 }
 
-cmd_float() {
-  case "${1:-on}" in
-    on)  am startservice -n "${PKG}/.FloatService" 2>/dev/null
-         echo "Floating button: ON" ;;
-    off) am stopservice  -n "${PKG}/.FloatService" 2>/dev/null
-         echo "Floating button: OFF" ;;
-  esac
+cmd_exit_node() {
+    local node="${1}"
+    local lan="${2:-false}"
+    if [[ -z "$node" ]]; then
+        echo "Usage: tailscale exit-node <node-name> [allow-lan-access]"
+        exit 1
+    fi
+    echo -e "${YELLOW}[*]${RESET} Setting exit node: $node"
+    am broadcast -a "${PKG}.USE_EXIT_NODE" --es exitNode "$node" --ez allowLanAccess "$lan" 2>/dev/null
+    sleep 1
+    cmd_status
 }
 
 usage() {
-  echo "Usage: tailscale <command>"
-  echo ""
-  echo "Commands:"
-  echo "  up        Connect to Tailscale"
-  echo "  down      Disconnect from Tailscale"
-  echo "  toggle    Toggle connection"
-  echo "  status    Show connection status"
-  echo "  float on  Show floating button overlay"
-  echo "  float off Hide floating button overlay"
+    echo "Usage: tailscale <command>"
+    echo ""
+    echo "Commands:"
+    echo "  up                              Connect to Tailscale"
+    echo "  down                            Disconnect from Tailscale"
+    echo "  toggle                          Toggle connection"
+    echo "  status                          Show connection status"
+    echo "  exit-node <name> [allow-lan]    Set exit node"
+    echo ""
+    echo "Note: open the Tailscale app once to log in and grant VPN"
+    echo "permission before using shell commands."
 }
 
 case "${1:-}" in
-  up)     cmd_up ;;
-  down)   cmd_down ;;
-  toggle) cmd_toggle ;;
-  status) cmd_status ;;
-  float)  cmd_float "${2:-on}" ;;
-  *)      usage ;;
+    up)         cmd_up ;;
+    down)       cmd_down ;;
+    toggle)     cmd_toggle ;;
+    status)     cmd_status ;;
+    exit-node)  cmd_exit_node "${2:-}" "${3:-false}" ;;
+    *)          usage ;;
 esac
