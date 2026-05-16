@@ -34,8 +34,41 @@ jobs:
       - name: Install NDK
         run: sdkmanager "ndk;23.1.7779620"
 
-      - name: Add sharedUserId to manifest
-        run: sed -i 's/<manifest xmlns:android="http:\/\/schemas.android.com\/apk\/res\/android"/<manifest xmlns:android="http:\/\/schemas.android.com\/apk\/res\/android"\n    android:sharedUserId="com.termux"/' android/src/main/AndroidManifest.xml
+      - name: Patch repo
+        run: |
+          python3 << 'PYEOF'
+          import re
+
+          # 1. Add sharedUserId to manifest
+          with open('android/src/main/AndroidManifest.xml') as f:
+              c = f.read()
+          if 'sharedUserId' not in c:
+              c = c.replace(
+                  '<manifest xmlns:android="http://schemas.android.com/apk/res/android"',
+                  '<manifest xmlns:android="http://schemas.android.com/apk/res/android"\n    android:sharedUserId="com.termux"'
+              )
+          # 2. Add receivers before </application>
+          receiver_xml = '''
+          <receiver android:name=".TermuxPluginReceiver" android:exported="true">
+              <intent-filter>
+                  <action android:name="com.tailscale.ipn.TERMUX_UP"/>
+                  <action android:name="com.tailscale.ipn.TERMUX_DOWN"/>
+                  <action android:name="com.tailscale.ipn.TERMUX_TOGGLE"/>
+                  <action android:name="com.tailscale.ipn.TERMUX_STATUS"/>
+              </intent-filter>
+          </receiver>
+          <receiver android:name=".TermuxBootReceiver" android:exported="true">
+              <intent-filter>
+                  <action android:name="android.intent.action.BOOT_COMPLETED"/>
+              </intent-filter>
+          </receiver>
+          '''
+          if 'TermuxPluginReceiver' not in c:
+              c = c.replace('</application>', receiver_xml + '\n    </application>')
+          with open('android/src/main/AndroidManifest.xml', 'w') as f:
+              f.write(c)
+          print("Manifest patched")
+          PYEOF
 
       - name: Add TermuxPluginReceiver
         run: |
@@ -114,8 +147,20 @@ jobs:
           }
           JAVA
 
-      - name: Add receivers to manifest
-        run: sed -i 's/<\/application>/\n        <receiver android:name=".TermuxPluginReceiver" android:exported="true"><intent-filter><action android:name="com.tailscale.ipn.TERMUX_UP"\/><action android:name="com.tailscale.ipn.TERMUX_DOWN"\/><action android:name="com.tailscale.ipn.TERMUX_TOGGLE"\/><action android:name="com.tailscale.ipn.TERMUX_STATUS"\/><\/intent-filter><\/receiver>\n        <receiver android:name=".TermuxBootReceiver" android:exported="true"><intent-filter><action android:name="android.intent.action.BOOT_COMPLETED"\/><\/intent-filter><\/receiver>\n<\/application>/' android/src/main/AndroidManifest.xml
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: go-${{ hashFiles("**/go.sum") }}
+
+      - name: Cache NDK
+        id: cache-ndk
+        uses: actions/cache@v4
+        with:
+          path: /usr/local/lib/android/sdk/ndk/23.1.7779620
+          key: ndk-23.1.7779620
 
       - name: Cache Gradle
         uses: actions/cache@v4
@@ -132,11 +177,10 @@ jobs:
         run: make tailscale.version
 
       - name: Build release APK
-        working-directory: ${{ github.workspace }}
         run: |
           echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > keystore.jks
           cd android && ./gradlew assembleRelease --no-daemon \
-            -Pandroid.injected.signing.store.file="$(pwd)/keystore.jks" \
+            -Pandroid.injected.signing.store.file="$(pwd)/../keystore.jks" \
             -Pandroid.injected.signing.store.password="${{ secrets.KEYSTORE_PASSWORD }}" \
             -Pandroid.injected.signing.key.alias="${{ secrets.KEY_ALIAS }}" \
             -Pandroid.injected.signing.key.password="${{ secrets.KEY_PASSWORD }}"
