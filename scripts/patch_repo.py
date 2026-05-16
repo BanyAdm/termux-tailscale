@@ -24,3 +24,8 @@ with open('android/src/main/AndroidManifest.xml', 'w') as f:
     f.write(c)
 
 print("Manifest patched OK")
+
+# Change package name to avoid conflict with official Tailscale
+import subprocess
+subprocess.run(['sed', '-i', "s/namespace 'com.tailscale.ipn'/namespace 'com.banyadm.tailscale'/", 'android/build.gradle'], check=True)
+print("Package name patched OK")
