@@ -1,7 +1,7 @@
 // Copyright (c) Tailscale Inc & AUTHORS
 // SPDX-License-Identifier: BSD-3-Clause
 
-package com.tailscale.ipn;
+package com.banyadm.tmx.tailscale;
 
 import android.content.Context;
 import android.net.VpnService;

@@ -1,7 +1,7 @@
 // Copyright (c) Tailscale Inc & AUTHORS
 // SPDX-License-Identifier: BSD-3-Clause
 
-package com.tailscale.ipn;
+package com.banyadm.tmx.tailscale;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,8 +16,6 @@ import java.io.IOException;
 
 public final class StatusVPNWorker extends Worker {
 
-    public static final String STATUS_RESULT_ACTION = "com.tailscale.ipn.TERMUX_STATUS_RESULT";
-
     public StatusVPNWorker(Context appContext, WorkerParameters workerParams) {
         super(appContext, workerParams);
     }
@@ -28,6 +26,7 @@ public final class StatusVPNWorker extends Worker {
         UninitializedApp app = UninitializedApp.get();
         boolean connected = app.isAbleToStartVPN();
         String status = connected ? "connected" : "disconnected";
+        String pkg = app.getPackageName();
 
         File f = new File(app.getFilesDir(), "termux_status");
         try (FileWriter w = new FileWriter(f)) {
@@ -35,7 +34,7 @@ public final class StatusVPNWorker extends Worker {
         } catch (IOException e) {
         }
 
-        Intent result = new Intent(STATUS_RESULT_ACTION);
+        Intent result = new Intent(pkg + ".TERMUX_STATUS_RESULT");
         result.putExtra("connected", connected);
         result.putExtra("status", status);
         app.sendBroadcast(result);
