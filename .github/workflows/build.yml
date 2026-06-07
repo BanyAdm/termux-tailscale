@@ -43,11 +43,7 @@ jobs:
       - name: Patch manifest
         run: python3 termux-tailscale-scripts/scripts/patch_repo.py
 
-      - name: Add TermuxPluginReceiver
-        run: cp termux-tailscale-scripts/scripts/TermuxPluginReceiver.java android/src/main/java/com/tailscale/ipn/TermuxPluginReceiver.java
 
-      - name: Add TermuxBootReceiver
-        run: cp termux-tailscale-scripts/scripts/TermuxBootReceiver.java android/src/main/java/com/tailscale/ipn/TermuxBootReceiver.java
 
       - name: Cache Go modules
         uses: actions/cache@v4
