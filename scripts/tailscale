@@ -1,5 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 PKG="com.tailscale.ipn"
+RECEIVER="${PKG}/.TermuxPluginReceiver"
 STATUS_FILE="/data/data/${PKG}/files/termux_status"
 
 GREEN='\033[0;32m'
@@ -8,7 +9,7 @@ RED='\033[0;31m'
 RESET='\033[0m'
 
 _broadcast() {
-    am broadcast -a "${PKG}.${1}" ${@:2} 2>/dev/null
+    am broadcast -a "${PKG}.${1}" -n "${RECEIVER}" ${@:2} 2>/dev/null
 }
 
 cmd_up() {
@@ -54,7 +55,7 @@ cmd_exit_node() {
         exit 1
     fi
     echo -e "${YELLOW}[*]${RESET} Setting exit node: $node"
-    am broadcast -a "${PKG}.USE_EXIT_NODE" --es exitNode "$node" --ez allowLanAccess "$lan" 2>/dev/null
+    am broadcast -a "${PKG}.USE_EXIT_NODE" -n "${RECEIVER}" --es exitNode "$node" --ez allowLanAccess "$lan" 2>/dev/null
     sleep 1
     cmd_status
 }
@@ -68,9 +69,6 @@ usage() {
     echo "  toggle                          Toggle connection"
     echo "  status                          Show connection status"
     echo "  exit-node <name> [allow-lan]    Set exit node"
-    echo ""
-    echo "Note: open the Tailscale app once to log in and grant VPN"
-    echo "permission before using shell commands."
 }
 
 case "${1:-}" in
