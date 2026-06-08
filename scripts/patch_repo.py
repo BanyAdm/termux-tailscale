@@ -35,22 +35,28 @@ for root, dirs, files in os.walk('android/src'):
     for fname in files:
         if fname.endswith(('.kt', '.java')):
             path = os.path.join(root, fname)
-            with open(path) as f:
-                c = f.read()
-            if OLD_PKG in c:
-                with open(path, 'w') as f:
-                    f.write(c.replace(OLD_PKG, NEW_PKG))
+            try:
+                with open(path, encoding='utf-8') as f:
+                    c = f.read()
+                if OLD_PKG in c:
+                    with open(path, 'w', encoding='utf-8') as f:
+                        f.write(c.replace(OLD_PKG, NEW_PKG))
+            except (UnicodeDecodeError, IOError):
+                pass  # skip binary files
 
 # ── 4. Rename package in res XML files ──────────────────────────────────────
 for root, dirs, files in os.walk('android/src/main/res'):
     for fname in files:
         if fname.endswith('.xml'):
             path = os.path.join(root, fname)
-            with open(path) as f:
-                c = f.read()
-            if OLD_PKG in c:
-                with open(path, 'w') as f:
-                    f.write(c.replace(OLD_PKG, NEW_PKG))
+            try:
+                with open(path, encoding='utf-8') as f:
+                    c = f.read()
+                if OLD_PKG in c:
+                    with open(path, 'w', encoding='utf-8') as f:
+                        f.write(c.replace(OLD_PKG, NEW_PKG))
+            except (UnicodeDecodeError, IOError):
+                pass  # skip binary files
 
 # ── 5. Move Java source directory ───────────────────────────────────────────
 old_java = 'android/src/main/java/com/tailscale/ipn'
