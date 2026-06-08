@@ -1,7 +1,7 @@
 // Copyright (c) Tailscale Inc & AUTHORS
 // SPDX-License-Identifier: BSD-3-Clause
 
-package com.banyadm.tmx.tailscale;
+package com.tailscale.ipn;
 
 import android.content.Context;
 import android.content.Intent;
