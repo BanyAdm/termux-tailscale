@@ -14,24 +14,9 @@ This project bridges Termux with a modified Tailscale Android app using a plugin
 - Set exit node
 - Get Tailscale IP (via tun interface)
 - Display CLI version label
-- Simple broadcast-based IPC with Android app
 
 ---
 
 ## Requirements
 
-- Termux
-- Android build of Tailscale with plugin receiver support
 - `ifconfig` available in Termux (`pkg install net-tools`)
-- Proper package alignment between:
-  - Android app package (`PKG`)
-    - Termux receiver component
-
-    ---
-
-    ## Installation
-
-    1. Clone or copy script into Termux:
-
-    ```bash
-    chmod +x tailscale
