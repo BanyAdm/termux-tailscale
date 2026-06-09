@@ -9,9 +9,13 @@ This project bridges Termux with a modified Tailscale Android app using a plugin
 
 ## Installation
 you gotta have `curl` installed before you run the installation!
+
+1. Install the `termux-tailscale` package
 ```bash
 bash <(curl -Lf https://raw.githubusercontent.com/banyadm/termux-tailscale/main/install.sh)
 ```
+2. Install the `termux-tailscale` apk plugin, make sure the actual tailscale app and plugin dont interfere!
+- Install the apk [Here](https://github.com/banyadm/termux-tailscale/releases/latest)
 
 ---
 
