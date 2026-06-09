@@ -39,5 +39,7 @@ bash <(curl -Lf https://raw.githubusercontent.com/banyadm/termux-tailscale/main/
 ---
 
 ## LICENSE
-`MIT LICENCE 2026`
+`MIT License
+Copyright (c) 2026 Bany Adm`
+
 [HERE](https://raw.githubusercontent.com/banyadm/termux-tailscale/main/LICENSE)
