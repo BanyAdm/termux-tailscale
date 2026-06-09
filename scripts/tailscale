@@ -1,6 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
-PKG="com.banyadm.tmx.tailscale"
+PKG="com.tailscale.ipn"
 RECEIVER="${PKG}/.TermuxPluginReceiver"
+VERSION="V1"
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -56,6 +57,31 @@ cmd_exit_node() {
     cmd_status
 }
 
+cmd_ip() {
+    local ip
+    ip=$(ifconfig 2>/dev/null | awk '
+    /^[a-z0-9]+:/ { iface=$1 }
+    /^tun/ { in_tun=1 }
+    /inet / && in_tun {
+        for (i=1; i<=NF; i++) {
+            if ($i == "inet") {
+                print $(i+1)
+                exit
+            }
+        }
+    }')
+
+    if [[ -n "$ip" ]]; then
+        echo -e "${GREEN}[✓]${RESET} Tailscale IP: $ip"
+    else
+        echo -e "${RED}[✗]${RESET} No Tailscale IP found"
+    fi
+}
+
+cmd_version() {
+    echo -e "${GREEN}Tailscale CLI Version:${RESET} ${VERSION}"
+}
+
 usage() {
     echo "Usage: tailscale <command>"
     echo ""
@@ -64,7 +90,9 @@ usage() {
     echo "  down                            Disconnect from Tailscale"
     echo "  toggle                          Toggle connection"
     echo "  status                          Show connection status"
+    echo "  ip                              Show current Tailscale IP"
     echo "  exit-node <name> [allow-lan]    Set exit node"
+    echo "  version                         Show CLI version"
 }
 
 case "${1:-}" in
@@ -72,6 +100,8 @@ case "${1:-}" in
     down)       cmd_down ;;
     toggle)     cmd_toggle ;;
     status)     cmd_status ;;
+    ip)         cmd_ip ;;
     exit-node)  cmd_exit_node "${2:-}" "${3:-false}" ;;
+    version)    cmd_version ;;
     *)          usage ;;
 esac
