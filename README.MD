@@ -7,6 +7,14 @@ This project bridges Termux with a modified Tailscale Android app using a plugin
 
 ---
 
+## Installation
+you gotta have `curl` installed before you run the installation!
+```bash
+bash <(curl -Lf https://raw.githubusercontent.com/banyadm/termux-tailscale/main/install.sh)
+```
+
+---
+
 ## Features
 
 - Connect / Disconnect Tailscale VPN
@@ -21,3 +29,4 @@ This project bridges Termux with a modified Tailscale Android app using a plugin
 ## Requirements
 
 - `ifconfig` available in Termux (`pkg install net-tools`)
+- `curl` available in Termux (`pkg install curl`)
