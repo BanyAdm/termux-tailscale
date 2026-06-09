@@ -40,4 +40,4 @@ bash <(curl -Lf https://raw.githubusercontent.com/banyadm/termux-tailscale/main/
 
 ## LICENSE
 `MIT LICENCE 2026`
-[HERE](https://raw.githubusercontent.com/banyadm/termux-tailscale/main/LICENCE)
+[HERE](https://raw.githubusercontent.com/banyadm/termux-tailscale/main/LICENSE)
