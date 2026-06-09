@@ -35,3 +35,8 @@ bash <(curl -Lf https://raw.githubusercontent.com/banyadm/termux-tailscale/main/
 - `ifconfig` available in Termux (`pkg install net-tools`)
 - `curl` available in Termux (`pkg install curl`)
 - `$PREFIX` must be set to `/usr/` directory
+
+---
+
+## LICENSE
+`MIT` [LICENCE](https://raw.githubusercontent.com/banyadm/termux-tailscale/main/LICENCE)
