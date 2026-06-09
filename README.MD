@@ -1,4 +1,4 @@
-![termux-tailscale](/termux-tailscale.png)
+![termux-tailscale](/temp/termux-tailscale.png)
 # termux-tailscale
 
 A lightweight Termux CLI wrapper for controlling a patched Tailscale Android build via broadcast intents.
