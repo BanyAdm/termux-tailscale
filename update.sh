@@ -1,6 +1,6 @@
 set -e
 clear
-echo "Installing Termux:Tailscale..."
+echo "Updating Termux:Tailscale..."
 
 WEBCLIENT_DIR="$HOME/.local/share/tailscale-web"
 ASSETS_DIR="$WEBCLIENT_DIR/assets"
@@ -19,4 +19,4 @@ curl -L -o "$ASSETS_DIR/Inter.var.latin-Dxq58mVK.woff2" "$BASE/assets/Inter.var.
 mkdir -p "$HOME/.config/tailscale"
 curl -s "https://raw.githubusercontent.com/banyadm/termux-tailscale/main/VERSION" > "$HOME/.config/tailscale/version"
 
-echo "Done! Run 'tailscale' to get started."
+echo "Done! Termux:Tailscale updated."
