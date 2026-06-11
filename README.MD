@@ -26,7 +26,8 @@ bash <(curl -Lf https://raw.githubusercontent.com/banyadm/termux-tailscale/main/
 - Show connection status (tun interface detection)
 - Set exit node
 - Get Tailscale IP (via tun interface)
-- Display CLI version label
+- Tailscale web client
+- so much more!
 
 ---
 
