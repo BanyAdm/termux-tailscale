@@ -1,4 +1,7 @@
 set -e
+
+GREEN='\033[0;32m'
+
 clear
 echo "Installing Termux:Tailscale..."
 
@@ -19,4 +22,4 @@ curl -L -o "$ASSETS_DIR/Inter.var.latin-Dxq58mVK.woff2" "$BASE/assets/Inter.var.
 mkdir -p "$HOME/.config/tailscale"
 curl -s "https://raw.githubusercontent.com/banyadm/termux-tailscale/main/VERSION" > "$HOME/.config/tailscale/version"
 
-echo "Done! Run 'tailscale' to get started."
+echo -e "${GREEN}Done! Run 'tailscale' to get started."
