@@ -293,6 +293,14 @@ cmd_version() {
     echo -e "${GREEN}Tailscale CLI Version:${RESET} ${VERSION}"
 }
 
+cmd_uninstall() {
+	rm -rf $HOME/.local/share/tailscale-web
+	rm -rf $HOME/.config/tailscale
+	rm -rf $PREFIX/bin/tailscale
+
+	echo "${GREEN}Tailscale is uninstalled successfully!"
+}
+
 usage() {
     echo -e "${BOLD}Usage:${RESET} tailscale <command>"
     echo ""
@@ -315,6 +323,7 @@ usage() {
     echo "  set --webclient=false           Stop web interface"
     echo "  update                          Update to latest version"
     echo "  version                         Show CLI version"
+    echo "  uninstall                       Uninstall Tailscale package"
 }
 
 case "${1:-}" in
@@ -339,5 +348,6 @@ case "${1:-}" in
         ;;
     update)     cmd_update ;;
     version)    cmd_version ;;
+    uninstall)   cmd_uninstall ;;
     *)          usage ;;
 esac
