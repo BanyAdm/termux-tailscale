@@ -21,5 +21,5 @@ curl -L -o "$ASSETS_DIR/Inter.var.latin-Dxq58mVK.woff2" "$BASE/assets/Inter.var.
 
 mkdir -p "$HOME/.config/tailscale"
 curl -s "https://raw.githubusercontent.com/banyadm/termux-tailscale/main/VERSION" > "$HOME/.config/tailscale/version"
-
+clear
 echo -e "${GREEN}Done! Run 'tailscale' to get started."
