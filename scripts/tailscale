@@ -286,6 +286,7 @@ cmd_update() {
     fi
     echo -e "${YELLOW}[*]${RESET} Updating Termux:Tailscale ${VERSION} to ${remote_version}..."
     bash <(curl -Lf https://raw.githubusercontent.com/banyadm/termux-tailscale/main/update.sh)
+    clear
     echo -e "${GREEN}[✓]${RESET} Updated to ${remote_version}"
 }
 
@@ -297,8 +298,8 @@ cmd_uninstall() {
 	rm -rf $HOME/.local/share/tailscale-web
 	rm -rf $HOME/.config/tailscale
 	rm -rf $PREFIX/bin/tailscale
-
-	echo "${GREEN}Tailscale is uninstalled successfully!"
+    
+	echo -e "${GREEN}Tailscale is uninstalled successfully!"
 }
 
 usage() {
