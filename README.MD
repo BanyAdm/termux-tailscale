@@ -1,4 +1,7 @@
 ![termux-tailscale](/temp/termux-tailscale.png)
+
+![GitHub stars](https://img.shields.io/github/stars/banyadm/termux-tailscale?style=for-the-badge) ![GitHub issues](https://img.shields.io/github/issues/banyadm/termux-tailscale?color=violet&style=for-the-badge) ![GitHub repo size](https://img.shields.io/github/repo-size/banyadm/termux-tailscale?style=for-the-badge) ![GitHub License](https://img.shields.io/github/license/banyadm/termux-tailscale?style=for-the-badge)
+
 # termux-tailscale
 
 A lightweight Termux CLI wrapper for controlling a patched Tailscale Android build via broadcast intents.
