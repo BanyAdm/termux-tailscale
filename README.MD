@@ -1,6 +1,6 @@
 ![termux-tailscale](/temp/termux-tailscale.png)
 
-![GitHub stars](https://img.shields.io/github/stars/banyadm/termux-tailscale?style=for-the-badge) ![GitHub issues](https://img.shields.io/github/issues/banyadm/termux-tailscale?color=violet&style=for-the-badge) ![GitHub repo size](https://img.shields.io/github/repo-size/banyadm/termux-tailscale?style=for-the-badge) ![GitHub License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
+![GitHub stars](https://img.shields.io/github/stars/banyadm/termux-tailscale?style=for-the-badge) ![GitHub License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 
 # termux-tailscale
 
