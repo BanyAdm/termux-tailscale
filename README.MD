@@ -40,7 +40,25 @@ bash <(curl -Lf https://raw.githubusercontent.com/banyadm/termux-tailscale/main/
 - `ifconfig` available in Termux (`pkg install net-tools`)
 - `curl` available in Termux (`pkg install curl`)
 - `python3` available in Termux (`pkg install python`)
+
 ---
+
+# Security
+
+The Termux-tailscale plugin is a modified version of the [tailscale](https://github.com/tailscale/tailscale-android) Client
+
+it adds:
+
+- `TermuxPluginReceiver` Broadcast Receiver
+- `TermuxBootReceiver` Broadcast Receiver
+
+These Broadcasts are made to receive broadcasts from termux to start/stop the Tailscale client
+
+- A Different app info tab
+- New icon, pkg name, app name
+
+for more debugging, There is an open-sourced [Repository](https://github.com/banyadm/tailscale-android)
+
 
 ## LICENSE
 `MIT License
