@@ -43,7 +43,7 @@ bash <(curl -Lf https://raw.githubusercontent.com/banyadm/termux-tailscale/main/
 
 ---
 
-# Security
+## Security
 
 The Termux-tailscale plugin is a modified version of the [tailscale](https://github.com/tailscale/tailscale-android) Client
 
