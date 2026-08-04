@@ -3,6 +3,18 @@
 ![GitHub stars](https://img.shields.io/github/stars/banyadm/termux-tailscale?style=for-the-badge) 
 ![GitHub License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 
+---
+
+### -- NOTICE ⚠️ --
+
+>As of Google’s new September update, changes to the APK installation and building process may affect how this repository works.
+
+>The repository may no longer work as intended due to the new signing requirements. The signing process requires a private key that can only be obtained after verifying your government ID and paying a $25 fee.
+
+>So, enjoy this tool while it lasts. If the update is fully rolled out, there is a high chance that this repository will either be archived or stop working.
+
+Thank you all for using this tool and supporting the project. ❤️
+
 # termux-tailscale
 
 A lightweight Termux CLI wrapper for controlling a patched Tailscale Android build via broadcast intents.
